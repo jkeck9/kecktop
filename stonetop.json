@@ -1,0 +1,208 @@
+{
+  "_readme": "Edit this file to update the app. Everything here is visible to players. Keep secrets in your notes app. IDs must be lowercase, no spaces. Ties only need to be entered ONCE (on either person) - the app draws them both ways.",
+
+  "villagers": [
+    {
+      "id": "berkhard",
+      "name": "Berkhard",
+      "pc": true,
+      "role": "The Marshall",
+      "home": null,
+      "notes": "Leader of Stonetop's warriors.",
+      "ties": [
+        { "to": "gerhild", "label": "married to" },
+        { "to": "aled", "label": "commands" },
+        { "to": "gerat", "label": "commands" },
+        { "to": "glaw", "label": "commands" },
+        { "to": "harri", "label": "commands" },
+        { "to": "nesta", "label": "commands" },
+        { "to": "eira", "label": "commands" }
+      ]
+    },
+    {
+      "id": "fadrian",
+      "name": "Fadrian",
+      "pc": true,
+      "role": "The Ranger",
+      "home": null,
+      "notes": "Son of Thadrin. Rides a horse named Gordo.",
+      "ties": [
+        { "to": "dolph", "label": "mentors" },
+        { "to": "tallpup", "label": "taught" }
+      ]
+    },
+    {
+      "id": "stevwin",
+      "name": "Stevwin",
+      "pc": true,
+      "role": "The Heavy",
+      "home": "smithy",
+      "notes": "Likes to hit things. Works the village smithy under Pete.",
+      "ties": [
+        { "to": "pete", "label": "works for" }
+      ]
+    },
+    {
+      "id": "anook",
+      "name": "Snook Anook",
+      "pc": true,
+      "role": "The Seeker",
+      "home": null,
+      "notes": "Goes by Anook. Originally from Gordin's Delve, not Stonetop.",
+      "ties": []
+    },
+    {
+      "id": "tallpup",
+      "name": "Tall Pup",
+      "pc": true,
+      "role": "The Blessed",
+      "home": null,
+      "notes": "Raised in the wild. Carries a faint memory of a dark figure and little else of her childhood. Follows Fadrian and learned from him.",
+      "ties": [
+        { "to": "dolph", "label": "smitten with" }
+      ]
+    },
+
+    {
+      "id": "dolph",
+      "name": "Dolph",
+      "pc": false,
+      "role": "Ranger's apprentice",
+      "home": null,
+      "notes": "Self-named. Apprentice to Fadrian.",
+      "ties": []
+    },
+    {
+      "id": "gerhild",
+      "name": "Gerhild",
+      "pc": false,
+      "role": "Herbalist",
+      "home": null,
+      "notes": "Wife of Berkhard. Works alongside Sithe.",
+      "ties": [
+        { "to": "sithe", "label": "works with" }
+      ]
+    },
+    {
+      "id": "sithe",
+      "name": "Sith\u0113",
+      "pc": false,
+      "role": "Village elder & healer",
+      "home": null,
+      "notes": "An old, larger woman who walks with a crooked cane.",
+      "ties": []
+    },
+    {
+      "id": "brogan",
+      "name": "Brogan",
+      "pc": false,
+      "role": "Laborer",
+      "home": null,
+      "notes": "",
+      "ties": [
+        { "to": "egraine", "label": "married to" },
+        { "to": "miriel", "label": "father of" }
+      ]
+    },
+    {
+      "id": "egraine",
+      "name": "Egraine",
+      "pc": false,
+      "role": "Homemaker",
+      "home": null,
+      "notes": "",
+      "ties": [
+        { "to": "miriel", "label": "mother of" }
+      ]
+    },
+    {
+      "id": "miriel",
+      "name": "Miriel",
+      "pc": false,
+      "role": "Child",
+      "home": null,
+      "notes": "Eight years old.",
+      "ties": []
+    },
+    {
+      "id": "alwyn",
+      "name": "Alwyn",
+      "pc": false,
+      "role": "Publican",
+      "home": null,
+      "notes": "A stout and jovial man who takes pleasure in providing community, rest, and mirth through food and drink.",
+      "ties": []
+    },
+    {
+      "id": "pete",
+      "name": "Pete",
+      "pc": false,
+      "role": "Blacksmith",
+      "home": "smithy",
+      "notes": "A man of few words. The locals find his grunts and mumbles intelligible enough.",
+      "ties": []
+    },
+    {
+      "id": "aled",
+      "name": "Aled",
+      "pc": false,
+      "role": "Warrior",
+      "home": null,
+      "notes": "Sharp-eyed. Whittles.",
+      "ties": []
+    },
+    {
+      "id": "gerat",
+      "name": "Gerat",
+      "pc": false,
+      "role": "Warrior",
+      "home": null,
+      "notes": "A drunkard. Tells tall tales.",
+      "ties": []
+    },
+    {
+      "id": "glaw",
+      "name": "Glaw",
+      "pc": false,
+      "role": "Warrior",
+      "home": null,
+      "notes": "A heartthrob, scars and all.",
+      "ties": []
+    },
+    {
+      "id": "harri",
+      "name": "Harri",
+      "pc": false,
+      "role": "Warrior",
+      "home": null,
+      "notes": "Popular. Gallows humor.",
+      "ties": []
+    },
+    {
+      "id": "nesta",
+      "name": "Nesta",
+      "pc": false,
+      "role": "Warrior",
+      "home": null,
+      "notes": "Grumpy and sharp-tongued.",
+      "ties": []
+    },
+    {
+      "id": "eira",
+      "name": "Eira",
+      "pc": false,
+      "role": "Warrior",
+      "home": null,
+      "notes": "Honest. Recently married.",
+      "ties": []
+    }
+  ],
+
+  "locations": [
+    { "id": "smithy", "name": "The Smithy", "notes": "Pete's forge." }
+  ],
+
+  "steading": {},
+
+  "world": {}
+}

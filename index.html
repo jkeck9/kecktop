@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stonetop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,500;0,700;1,400&family=Barlow+Condensed:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#100d0a;
+  --smoke:#1c1815;
+  --hearth:#241d17;
+  --ash:#8a8078;
+  --bone:#e8e0d2;
+  --wool:#b8ac99;
+  --ember:#c65d2e;
+  --bronze:#b08d4f;
+  --moss:#5c6b4a;
+  --rule:rgba(184,172,153,.16);
+  --display:'Alegreya',Georgia,serif;
+  --util:'Barlow Condensed',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  background:var(--ink);
+  color:var(--bone);
+  font-family:var(--display);
+  font-size:17px;
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(198,93,46,.07), transparent 70%),
+    radial-gradient(ellipse 60% 40% at 20% 100%, rgba(92,107,74,.05), transparent 70%);
+}
+
+/* ---------- shell ---------- */
+.wrap{position:relative;z-index:1;max-width:1240px;margin:0 auto;padding:0 24px 80px}
+
+header.masthead{
+  padding:44px 0 20px;
+  border-bottom:1px solid var(--rule);
+  display:flex;align-items:baseline;justify-content:space-between;gap:20px;flex-wrap:wrap;
+}
+.brand{display:flex;align-items:baseline;gap:14px}
+h1{
+  font-family:var(--display);
+  font-weight:500;font-size:clamp(30px,5vw,44px);
+  letter-spacing:.14em;text-transform:uppercase;
+  line-height:1;
+}
+.brand .tag{
+  font-family:var(--util);font-size:13px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--ash);
+}
+nav{display:flex;gap:4px}
+nav button{
+  font-family:var(--util);font-size:14px;letter-spacing:.16em;text-transform:uppercase;
+  background:none;border:none;color:var(--ash);cursor:pointer;
+  padding:9px 16px;border-radius:2px;transition:color .15s,background .15s;
+}
+nav button:hover{color:var(--bone);background:rgba(184,172,153,.05)}
+nav button[aria-current="true"]{color:var(--ink);background:var(--bone)}
+nav button:focus-visible{outline:2px solid var(--ember);outline-offset:2px}
+
+/* ---------- controls ---------- */
+.controls{
+  display:flex;gap:10px;align-items:center;flex-wrap:wrap;
+  padding:22px 0;border-bottom:1px solid var(--rule);
+}
+.search{
+  flex:1;min-width:200px;
+  background:var(--smoke);border:1px solid var(--rule);color:var(--bone);
+  font-family:var(--display);font-size:16px;padding:10px 14px;border-radius:2px;
+}
+.search::placeholder{color:var(--ash)}
+.search:focus{outline:none;border-color:var(--bronze)}
+.chip{
+  font-family:var(--util);font-size:13px;letter-spacing:.14em;text-transform:uppercase;
+  background:none;border:1px solid var(--rule);color:var(--ash);
+  padding:8px 14px;border-radius:2px;cursor:pointer;transition:all .15s;
+}
+.chip:hover{border-color:var(--wool);color:var(--bone)}
+.chip[aria-pressed="true"]{background:var(--bone);color:var(--ink);border-color:var(--bone)}
+.chip:focus-visible{outline:2px solid var(--ember);outline-offset:2px}
+
+/* ---------- roster ---------- */
+.count{
+  font-family:var(--util);font-size:13px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--ash);padding:20px 0 12px;
+}
+.roster{
+  display:grid;gap:1px;
+  grid-template-columns:repeat(auto-fill,minmax(268px,1fr));
+  background:var(--rule);
+  border:1px solid var(--rule);
+}
+.card{
+  background:var(--smoke);
+  padding:20px;cursor:pointer;border:none;text-align:left;
+  color:inherit;font:inherit;
+  transition:background .18s;
+  position:relative;
+  display:flex;flex-direction:column;gap:7px;
+  min-height:150px;
+}
+.card:hover{background:var(--hearth)}
+.card:focus-visible{outline:2px solid var(--ember);outline-offset:-2px}
+.card.is-pc::before{
+  content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--ember);
+}
+.card .nm{
+  font-size:22px;font-weight:500;letter-spacing:.02em;line-height:1.15;
+}
+.card .rl{
+  font-family:var(--util);font-size:13px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--bronze);
+}
+.card.is-pc .rl{color:var(--ember)}
+.card .nt{
+  font-size:15px;color:var(--wool);line-height:1.5;
+  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;
+}
+.card .ties-n{
+  font-family:var(--util);font-size:12px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ash);margin-top:auto;padding-top:8px;
+}
+.empty{
+  padding:60px 20px;text-align:center;color:var(--ash);
+  border:1px solid var(--rule);background:var(--smoke);
+}
+
+/* ---------- graph ---------- */
+#graphPane{padding-top:24px}
+.graph-hint{
+  font-family:var(--util);font-size:13px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ash);padding-bottom:14px;
+}
+.graph-box{
+  border:1px solid var(--rule);background:var(--smoke);
+  border-radius:2px;overflow:hidden;
+}
+#graph{display:block;width:100%;height:620px;touch-action:none;cursor:grab}
+#graph:active{cursor:grabbing}
+.link{stroke:var(--rule);stroke-width:1.2}
+.link.hot{stroke:var(--ember);stroke-width:2}
+.link.dim{stroke:rgba(184,172,153,.05)}
+.node circle{stroke:var(--smoke);stroke-width:2;cursor:pointer}
+.node.dim{opacity:.2}
+.node text{
+  font-family:var(--util);font-size:12px;letter-spacing:.1em;
+  fill:var(--wool);pointer-events:none;text-anchor:middle;
+}
+.node.hot text{fill:var(--bone)}
+.elabel{
+  font-family:var(--util);font-size:10px;letter-spacing:.08em;
+  fill:var(--ash);text-anchor:middle;pointer-events:none;opacity:0;
+}
+.elabel.show{opacity:1;fill:var(--bronze)}
+
+/* ---------- drawer ---------- */
+.scrim{
+  position:fixed;inset:0;background:rgba(8,6,5,.7);z-index:40;
+  opacity:0;pointer-events:none;transition:opacity .22s;
+}
+.scrim.open{opacity:1;pointer-events:auto}
+.drawer{
+  position:fixed;top:0;right:0;bottom:0;width:min(440px,100%);
+  background:var(--smoke);border-left:1px solid var(--rule);
+  z-index:41;transform:translateX(100%);transition:transform .28s cubic-bezier(.2,.7,.3,1);
+  overflow-y:auto;padding:28px;
+}
+.drawer.open{transform:none}
+.drawer .x{
+  position:absolute;top:20px;right:20px;
+  background:none;border:1px solid var(--rule);color:var(--ash);
+  width:32px;height:32px;border-radius:2px;cursor:pointer;font-size:16px;line-height:1;
+}
+.drawer .x:hover{color:var(--bone);border-color:var(--wool)}
+.d-eyebrow{
+  font-family:var(--util);font-size:12px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--ember);margin-bottom:6px;
+}
+.d-eyebrow.npc{color:var(--bronze)}
+.d-name{font-size:34px;font-weight:500;line-height:1.1;margin-bottom:4px;padding-right:40px}
+.d-role{
+  font-family:var(--util);font-size:14px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--wool);padding-bottom:20px;border-bottom:1px solid var(--rule);
+}
+.d-sec{padding:20px 0;border-bottom:1px solid var(--rule)}
+.d-sec:last-child{border:none}
+.d-lab{
+  font-family:var(--util);font-size:12px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--ash);margin-bottom:10px;
+}
+.d-body{color:var(--bone);line-height:1.6}
+.d-body.none{color:var(--ash);font-style:italic}
+.tie{
+  display:flex;align-items:baseline;gap:10px;padding:7px 0;
+  background:none;border:none;color:inherit;font:inherit;
+  cursor:pointer;text-align:left;width:100%;
+}
+.tie:hover .tie-nm{color:var(--ember)}
+.tie-rel{
+  font-family:var(--util);font-size:12px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ash);flex:0 0 108px;
+}
+.tie-nm{font-size:17px;transition:color .15s;border-bottom:1px solid var(--rule)}
+
+.stub{
+  padding:70px 24px;text-align:center;border:1px solid var(--rule);
+  background:var(--smoke);margin-top:24px;
+}
+.stub h2{font-size:26px;font-weight:500;letter-spacing:.05em;margin-bottom:8px}
+.stub p{color:var(--ash);max-width:420px;margin:0 auto}
+
+[hidden]{display:none!important}
+
+@media (max-width:640px){
+  .wrap{padding:0 16px 60px}
+  header.masthead{padding:28px 0 16px}
+  nav{width:100%}
+  nav button{flex:1;padding:9px 8px;font-size:13px;letter-spacing:.1em}
+  .roster{grid-template-columns:1fr}
+  #graph{height:460px}
+  .drawer{padding:22px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="masthead">
+    <div class="brand">
+      <h1>Stonetop</h1>
+      <span class="tag">Who lives here</span>
+    </div>
+    <nav>
+      <button data-tab="roster" aria-current="true">Roster</button>
+      <button data-tab="graph">Ties</button>
+      <button data-tab="steading">Steading</button>
+    </nav>
+  </header>
+
+  <!-- ROSTER -->
+  <section id="rosterPane">
+    <div class="controls">
+      <input class="search" id="q" type="search" placeholder="Search names, roles, notes…" autocomplete="off">
+      <button class="chip" data-filter="all" aria-pressed="true">Everyone</button>
+      <button class="chip" data-filter="pc" aria-pressed="false">Player characters</button>
+      <button class="chip" data-filter="npc" aria-pressed="false">Villagers</button>
+    </div>
+    <div class="count" id="count"></div>
+    <div class="roster" id="roster"></div>
+  </section>
+
+  <!-- GRAPH -->
+  <section id="graphPane" hidden>
+    <div class="graph-hint">Drag to rearrange · click a name to open their card · hover to trace their ties</div>
+    <div class="graph-box"><svg id="graph"></svg></div>
+  </section>
+
+  <!-- STEADING -->
+  <section id="steadingPane" hidden>
+    <div class="stub">
+      <h2>Steading</h2>
+      <p>Population, surplus, defenses, and upgrades will live here.</p>
+    </div>
+  </section>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="dName">
+  <button class="x" id="closeDrawer" aria-label="Close">✕</button>
+  <div id="drawerBody"></div>
+</aside>
+
+<script src="d3.min.js"></script>
+<script>
+let DATA = null, PEOPLE = [], BYID = {}, EDGES = [];
+let filter = 'all', query = '';
+
+/* Build a symmetric tie list. Ties are entered once in JSON; we mirror them here,
+   inverting the label where we know the inverse, so both cards read correctly. */
+const INVERSE = {
+  'married to':'married to',
+  'father of':'child of',
+  'mother of':'child of',
+  'child of':'parent of',
+  'commands':'serves under',
+  'serves under':'commands',
+  'mentors':'apprenticed to',
+  'apprenticed to':'mentors',
+  'taught':'taught by',
+  'taught by':'taught',
+  'works with':'works with',
+  'works for':'employs',
+  'employs':'works for',
+  'smitten with':'admired by'
+};
+
+function invert(label){ return INVERSE[label] || label; }
+
+function ingest(d){
+  DATA = d;
+  PEOPLE = d.villagers;
+  BYID = {}; PEOPLE.forEach(p => { BYID[p.id] = p; p._ties = []; });
+
+  const seen = new Set();
+  EDGES = [];
+  PEOPLE.forEach(p => {
+    (p.ties||[]).forEach(t => {
+      const other = BYID[t.to];
+      if(!other){ console.warn('Unknown tie target:', t.to, 'on', p.id); return; }
+      p._ties.push({ id: other.id, name: other.name, label: t.label });
+      other._ties.push({ id: p.id, name: p.name, label: invert(t.label) });
+      const key = [p.id, t.to].sort().join('|');
+      if(!seen.has(key)){ seen.add(key); EDGES.push({ source:p.id, target:t.to, label:t.label }); }
+    });
+  });
+}
+
+/* ---------- roster ---------- */
+function visible(){
+  const q = query.trim().toLowerCase();
+  return PEOPLE.filter(p => {
+    if(filter === 'pc' && !p.pc) return false;
+    if(filter === 'npc' && p.pc) return false;
+    if(!q) return true;
+    return (p.name + ' ' + (p.role||'') + ' ' + (p.notes||'')).toLowerCase().includes(q);
+  });
+}
+
+function renderRoster(){
+  const list = visible();
+  const el = document.getElementById('roster');
+  document.getElementById('count').textContent =
+    list.length + (list.length === 1 ? ' soul' : ' souls');
+
+  if(!list.length){
+    el.innerHTML = '<div class="empty">Nobody by that name. Try a different search.</div>';
+    return;
+  }
+  el.innerHTML = list.map(p => `
+    <button class="card ${p.pc?'is-pc':''}" data-id="${p.id}">
+      <span class="nm">${esc(p.name)}</span>
+      <span class="rl">${esc(p.role||'—')}</span>
+      ${p.notes ? `<span class="nt">${esc(p.notes)}</span>` : ''}
+      <span class="ties-n">${p._ties.length ? p._ties.length + (p._ties.length===1?' tie':' ties') : 'No ties recorded'}</span>
+    </button>`).join('');
+  el.querySelectorAll('.card').forEach(c =>
+    c.onclick = () => openDrawer(c.dataset.id));
+}
+
+/* ---------- drawer ---------- */
+function openDrawer(id){
+  const p = BYID[id];
+  if(!p) return;
+  const ties = p._ties.slice().sort((a,b) => a.label.localeCompare(b.label));
+  document.getElementById('drawerBody').innerHTML = `
+    <div class="d-eyebrow ${p.pc?'':'npc'}">${p.pc ? 'Player character' : 'Villager'}</div>
+    <div class="d-name" id="dName">${esc(p.name)}</div>
+    <div class="d-role">${esc(p.role||'—')}</div>
+    <div class="d-sec">
+      <div class="d-lab">Notes</div>
+      <div class="d-body ${p.notes?'':'none'}">${p.notes ? esc(p.notes) : 'Nothing written down yet.'}</div>
+    </div>
+    <div class="d-sec">
+      <div class="d-lab">Ties</div>
+      ${ties.length ? ties.map(t => `
+        <button class="tie" data-goto="${t.id}">
+          <span class="tie-rel">${esc(t.label)}</span>
+          <span class="tie-nm">${esc(t.name)}</span>
+        </button>`).join('') : '<div class="d-body none">No ties recorded.</div>'}
+    </div>
+    <div class="d-sec">
+      <div class="d-lab">Home</div>
+      <div class="d-body ${p.home?'':'none'}">${p.home ? esc(locName(p.home)) : 'Not recorded.'}</div>
+    </div>`;
+  document.getElementById('drawerBody').querySelectorAll('[data-goto]').forEach(b =>
+    b.onclick = () => openDrawer(b.dataset.goto));
+  document.getElementById('drawer').classList.add('open');
+  document.getElementById('scrim').classList.add('open');
+  document.getElementById('closeDrawer').focus();
+}
+function closeDrawer(){
+  document.getElementById('drawer').classList.remove('open');
+  document.getElementById('scrim').classList.remove('open');
+}
+function locName(id){
+  const l = (DATA.locations||[]).find(x => x.id === id);
+  return l ? l.name : id;
+}
+function esc(s){
+  return String(s).replace(/[&<>"']/g, c =>
+    ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+/* ---------- graph ---------- */
+let sim = null;
+function renderGraph(){
+  const svg = d3.select('#graph');
+  svg.selectAll('*').remove();
+  const box = document.getElementById('graph').getBoundingClientRect();
+  const W = box.width, H = box.height;
+
+  const nodes = PEOPLE.map(p => ({ ...p }));
+  const links = EDGES.map(e => ({ ...e }));
+
+  const g = svg.append('g');
+  svg.call(d3.zoom().scaleExtent([.4, 3]).on('zoom', ev => g.attr('transform', ev.transform)));
+
+  const link = g.append('g').selectAll('line').data(links).join('line').attr('class','link');
+  const elab = g.append('g').selectAll('text').data(links).join('text')
+    .attr('class','elabel').text(d => d.label);
+
+  const node = g.append('g').selectAll('g').data(nodes).join('g').attr('class','node');
+  node.append('circle')
+    .attr('r', d => d.pc ? 11 : 7)
+    .attr('fill', d => d.pc ? 'var(--ember)' : 'var(--bronze)');
+  node.append('text').attr('dy', d => d.pc ? 26 : 21).text(d => d.name);
+
+  const adj = {};
+  links.forEach(l => {
+    (adj[l.source] = adj[l.source] || new Set()).add(l.target);
+    (adj[l.target] = adj[l.target] || new Set()).add(l.source);
+  });
+
+  node.on('mouseenter', (ev, d) => {
+    node.classed('dim', n => n.id !== d.id && !(adj[d.id] && adj[d.id].has(n.id)));
+    node.classed('hot', n => n.id === d.id || (adj[d.id] && adj[d.id].has(n.id)));
+    link.classed('hot', l => l.source.id === d.id || l.target.id === d.id);
+    link.classed('dim', l => l.source.id !== d.id && l.target.id !== d.id);
+    elab.classed('show', l => l.source.id === d.id || l.target.id === d.id);
+  }).on('mouseleave', () => {
+    node.classed('dim', false).classed('hot', false);
+    link.classed('hot', false).classed('dim', false);
+    elab.classed('show', false);
+  }).on('click', (ev, d) => openDrawer(d.id));
+
+  sim = d3.forceSimulation(nodes)
+    .force('link', d3.forceLink(links).id(d => d.id).distance(90).strength(.65))
+    .force('charge', d3.forceManyBody().strength(-380))
+    .force('center', d3.forceCenter(W/2, H/2))
+    .force('x', d3.forceX(W/2).strength(.06))
+    .force('y', d3.forceY(H/2).strength(.09))
+    .force('collide', d3.forceCollide(40))
+    .on('tick', () => {
+      link.attr('x1',d=>d.source.x).attr('y1',d=>d.source.y)
+          .attr('x2',d=>d.target.x).attr('y2',d=>d.target.y);
+      elab.attr('x',d=>(d.source.x+d.target.x)/2).attr('y',d=>(d.source.y+d.target.y)/2 - 4);
+      node.attr('transform', d => `translate(${d.x},${d.y})`);
+    });
+
+  node.call(d3.drag()
+    .on('start', (ev,d) => { if(!ev.active) sim.alphaTarget(.3).restart(); d.fx=d.x; d.fy=d.y; })
+    .on('drag',  (ev,d) => { d.fx=ev.x; d.fy=ev.y; })
+    .on('end',   (ev,d) => { if(!ev.active) sim.alphaTarget(0); d.fx=null; d.fy=null; }));
+}
+
+/* ---------- tabs ---------- */
+function showTab(name){
+  document.querySelectorAll('nav button').forEach(b =>
+    b.setAttribute('aria-current', b.dataset.tab === name));
+  document.getElementById('rosterPane').hidden   = name !== 'roster';
+  document.getElementById('graphPane').hidden    = name !== 'graph';
+  document.getElementById('steadingPane').hidden = name !== 'steading';
+  if(name === 'graph') renderGraph();
+}
+
+/* ---------- boot ---------- */
+fetch('stonetop.json')
+  .then(r => { if(!r.ok) throw new Error(r.status); return r.json(); })
+  .then(d => {
+    ingest(d);
+    renderRoster();
+  })
+  .catch(e => {
+    document.getElementById('roster').innerHTML =
+      '<div class="empty">Could not load stonetop.json — check the file is beside index.html and that its syntax is valid.</div>';
+    console.error(e);
+  });
+
+document.querySelectorAll('nav button').forEach(b =>
+  b.onclick = () => showTab(b.dataset.tab));
+document.querySelectorAll('.chip').forEach(c => c.onclick = () => {
+  filter = c.dataset.filter;
+  document.querySelectorAll('.chip').forEach(x =>
+    x.setAttribute('aria-pressed', x === c));
+  renderRoster();
+});
+document.getElementById('q').oninput = e => { query = e.target.value; renderRoster(); };
+document.getElementById('closeDrawer').onclick = closeDrawer;
+document.getElementById('scrim').onclick = closeDrawer;
+document.addEventListener('keydown', e => { if(e.key === 'Escape') closeDrawer(); });
+window.addEventListener('resize', () => {
+  if(!document.getElementById('graphPane').hidden) renderGraph();
+});
+</script>
+</body>
+</html>
