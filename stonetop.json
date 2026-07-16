@@ -198,8 +198,33 @@
     }
   ],
 
+  "map": {
+    "image": "map.jpg",
+    "credit": "Map by Jeremy Strandberg, from the Stonetop corebook."
+  },
+
   "locations": [
-    { "id": "smithy", "name": "The Smithy", "notes": "Pete's forge." }
+    {
+      "id": "standing-stone",
+      "name": "The Standing Stone",
+      "x": 34.0,
+      "y": 26.4,
+      "notes": "The old monolith at the heart of the village. Older than Stonetop, older than the Makers. Nobody raised it; it was simply here."
+    },
+    {
+      "id": "great-hall",
+      "name": "The Great Hall",
+      "x": 46.2,
+      "y": 28.0,
+      "notes": "Where the village gathers, argues, feasts, and decides."
+    },
+    {
+      "id": "smithy",
+      "name": "The Smithy",
+      "x": null,
+      "y": null,
+      "notes": "Pete's forge. Stevwin works the bellows."
+    }
   ],
 
   "steading": {},

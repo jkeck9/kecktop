@@ -8,7 +8,9 @@ A shared reference for the table. Players can read it from any phone or laptop; 
 |---|---|
 | `stonetop.json` | **The only file you edit.** All villagers, ties, locations. |
 | `index.html` | The app. Don't touch unless you want to change how it looks. |
+| `map.jpg` | The village map. |
 | `d3.min.js` | Draws the relationship graph. Never touch. |
+| `admin.html` | **Your tool, not the players'.** Click-to-place marker helper. Keep it local — don't upload it. |
 
 ## Putting it online (free, no billing, ever)
 
@@ -65,8 +67,47 @@ The app knows how to reverse these labels:
 
 Any label not on that list gets mirrored as-is — so `"rivals"` shows as `rivals` on both cards, which is usually what you want. To add a new reversible pair, find `const INVERSE` in `index.html` and add a line.
 
+## Adding places to the map
+
+Don't hand-type coordinates. Use the tool.
+
+1. Open `admin.html` **through your local server**, not by double-clicking (see below).
+2. Click a building on the map.
+3. Type a name and a note.
+4. Click **Add place**.
+5. Repeat for every building you want to mark.
+6. Click **Copy**, then paste it over the whole `"locations": [ ... ],` block in `stonetop.json`.
+7. Commit. Done.
+
+The tool loads the places you've already got, so you're always adding to the list rather than starting fresh.
+
+### Running the admin tool locally
+
+Because it reads `stonetop.json`, it needs a server — same reason `index.html` wouldn't work by double-click. In a terminal, from the project folder:
+
+```
+python3 -m http.server 8000
+```
+
+Then visit `http://localhost:8000/admin.html`. Press Ctrl+C in the terminal when you're finished.
+
+(On Windows, try `py -m http.server 8000`.)
+
+### A place with no marker
+
+Set `x` and `y` to `null` and the place exists but doesn't appear on the map. Villagers can still live there — their card says "not on the map yet." Useful for somewhere you've named but not placed.
+
+## Connecting people to places
+
+Set a villager's `home` to a location's `id`:
+
+```json
+"home": "great-hall"
+```
+
+That's the whole job. Their card gets a **Show on map** link, and they appear under **Who's here** when you click that marker. The map and the roster stay in sync because they read the same field.
+
 ## Not built yet
 
-- **Homes / settlement map** — the `locations` list and `home` field are wired up and waiting. Needs the village map image and a click-to-place tool.
 - **Steading** — tab exists, is a placeholder. Pop, surplus, defenses, upgrades.
 - **World map** — the `world` key is sitting empty for whenever you want it.

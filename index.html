@@ -163,6 +163,50 @@ nav button:focus-visible{outline:2px solid var(--ember);outline-offset:2px}
 }
 .elabel.show{opacity:1;fill:var(--bronze)}
 
+/* ---------- map ---------- */
+.map-box{
+  border:1px solid var(--rule);background:var(--smoke);
+  border-radius:2px;overflow:hidden;
+}
+.map-inner{position:relative;line-height:0}
+#mapImg{width:100%;height:auto;display:block;filter:saturate(.85) brightness(.92)}
+#pins{position:absolute;inset:0}
+.pin{
+  position:absolute;transform:translate(-50%,-50%);
+  background:none;border:none;padding:0;cursor:pointer;
+  width:34px;height:34px;border-radius:50%;
+  display:grid;place-items:center;
+}
+.pin::after{
+  content:"";width:13px;height:13px;border-radius:50%;
+  background:var(--ember);border:2px solid rgba(28,24,21,.9);
+  box-shadow:0 0 0 0 rgba(198,93,46,.5);
+  transition:transform .16s, box-shadow .16s;
+}
+.pin:hover::after,.pin:focus-visible::after{
+  transform:scale(1.35);box-shadow:0 0 0 7px rgba(198,93,46,.22);
+}
+.pin[aria-current="true"]::after{
+  background:var(--bone);box-shadow:0 0 0 8px rgba(232,224,210,.25);transform:scale(1.35);
+}
+.pin:focus-visible{outline:2px solid var(--bone);outline-offset:2px}
+.pin-label{
+  position:absolute;left:50%;top:26px;transform:translateX(-50%);
+  font-family:var(--util);font-size:12px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--bone);background:rgba(16,13,10,.88);
+  padding:3px 8px;border:1px solid var(--rule);border-radius:2px;
+  white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .16s;
+}
+.pin:hover .pin-label,.pin:focus-visible .pin-label,.pin[aria-current="true"] .pin-label{opacity:1}
+.map-credit{
+  font-family:var(--util);font-size:12px;letter-spacing:.1em;
+  color:var(--ash);padding-top:10px;
+}
+.map-empty{
+  padding:60px 20px;text-align:center;color:var(--ash);
+  border:1px solid var(--rule);background:var(--smoke);
+}
+
 /* ---------- drawer ---------- */
 .scrim{
   position:fixed;inset:0;background:rgba(8,6,5,.7);z-index:40;
@@ -200,6 +244,7 @@ nav button:focus-visible{outline:2px solid var(--ember);outline-offset:2px}
 }
 .d-body{color:var(--bone);line-height:1.6}
 .d-body.none{color:var(--ash);font-style:italic}
+.hint-note{color:var(--ash);font-style:italic;font-size:14px}
 .tie{
   display:flex;align-items:baseline;gap:10px;padding:7px 0;
   background:none;border:none;color:inherit;font:inherit;
@@ -245,6 +290,7 @@ nav button:focus-visible{outline:2px solid var(--ember);outline-offset:2px}
     </div>
     <nav>
       <button data-tab="roster" aria-current="true">Roster</button>
+      <button data-tab="map">Map</button>
       <button data-tab="graph">Ties</button>
       <button data-tab="steading">Steading</button>
     </nav>
@@ -260,6 +306,18 @@ nav button:focus-visible{outline:2px solid var(--ember);outline-offset:2px}
     </div>
     <div class="count" id="count"></div>
     <div class="roster" id="roster"></div>
+  </section>
+
+  <!-- MAP -->
+  <section id="mapPane" hidden>
+    <div class="graph-hint" id="mapHint">Hover a marker to see the place · click to see who's there</div>
+    <div class="map-box">
+      <div class="map-inner" id="mapInner">
+        <img id="mapImg" alt="Map of Stonetop">
+        <div id="pins"></div>
+      </div>
+    </div>
+    <div class="map-credit" id="mapCredit"></div>
   </section>
 
   <!-- GRAPH -->
@@ -383,10 +441,12 @@ function openDrawer(id){
     </div>
     <div class="d-sec">
       <div class="d-lab">Home</div>
-      <div class="d-body ${p.home?'':'none'}">${p.home ? esc(locName(p.home)) : 'Not recorded.'}</div>
+      ${homeBlock(p)}
     </div>`;
   document.getElementById('drawerBody').querySelectorAll('[data-goto]').forEach(b =>
     b.onclick = () => openDrawer(b.dataset.goto));
+  const hb = document.getElementById('drawerBody').querySelector('[data-home]');
+  if(hb) hb.onclick = () => gotoHome(hb.dataset.home);
   document.getElementById('drawer').classList.add('open');
   document.getElementById('scrim').classList.add('open');
   document.getElementById('closeDrawer').focus();
@@ -399,9 +459,99 @@ function locName(id){
   const l = (DATA.locations||[]).find(x => x.id === id);
   return l ? l.name : id;
 }
+/* Home renders three ways: a link if the place is on the map,
+   plain text if the place exists but isn't placed yet, else a placeholder. */
+function homeBlock(p){
+  if(!p.home) return '<div class="d-body none">Not recorded.</div>';
+  const l = (DATA.locations||[]).find(x => x.id === p.home);
+  if(!l) return `<div class="d-body">${esc(p.home)}</div>`;
+  const placed = typeof l.x === 'number' && typeof l.y === 'number';
+  if(!placed) return `<div class="d-body">${esc(l.name)}<span class="hint-note"> — not on the map yet</span></div>`;
+  return `<button class="tie" data-home="${l.id}">
+            <span class="tie-rel">Show on map</span>
+            <span class="tie-nm">${esc(l.name)}</span>
+          </button>`;
+}
 function esc(s){
   return String(s).replace(/[&<>"']/g, c =>
     ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+/* ---------- map ---------- */
+function placedLocations(){
+  return (DATA.locations||[]).filter(l => typeof l.x === 'number' && typeof l.y === 'number');
+}
+function residentsOf(locId){
+  return PEOPLE.filter(p => p.home === locId);
+}
+function renderMap(){
+  const cfg = DATA.map || {};
+  const img = document.getElementById('mapImg');
+  const pins = document.getElementById('pins');
+  document.getElementById('mapCredit').textContent = cfg.credit || '';
+
+  if(!cfg.image){
+    document.getElementById('mapPane').querySelector('.map-box').innerHTML =
+      '<div class="map-empty">No map image set. Add one under "map" in stonetop.json.</div>';
+    return;
+  }
+  if(img.getAttribute('src') !== cfg.image) img.src = cfg.image;
+
+  const locs = placedLocations();
+  document.getElementById('mapHint').textContent = locs.length
+    ? 'Hover a marker to see the place · click to see who\u2019s there'
+    : 'No places marked yet.';
+
+  pins.innerHTML = locs.map(l => `
+    <button class="pin" data-loc="${l.id}" style="left:${l.x}%;top:${l.y}%"
+            aria-label="${esc(l.name)}">
+      <span class="pin-label">${esc(l.name)}</span>
+    </button>`).join('');
+  pins.querySelectorAll('.pin').forEach(b =>
+    b.onclick = () => openLocation(b.dataset.loc));
+}
+
+function openLocation(id){
+  const l = (DATA.locations||[]).find(x => x.id === id);
+  if(!l) return;
+  const here = residentsOf(id);
+  document.getElementById('drawerBody').innerHTML = `
+    <div class="d-eyebrow npc">Place</div>
+    <div class="d-name" id="dName">${esc(l.name)}</div>
+    <div class="d-role">${here.length ? here.length + (here.length===1?' resident':' residents') : 'Nobody recorded here'}</div>
+    <div class="d-sec">
+      <div class="d-lab">About</div>
+      <div class="d-body ${l.notes?'':'none'}">${l.notes ? esc(l.notes) : 'Nothing written down yet.'}</div>
+    </div>
+    <div class="d-sec">
+      <div class="d-lab">Who's here</div>
+      ${here.length ? here.map(p => `
+        <button class="tie" data-goto="${p.id}">
+          <span class="tie-rel">${esc(p.role||'—')}</span>
+          <span class="tie-nm">${esc(p.name)}</span>
+        </button>`).join('') : '<div class="d-body none">Nobody\u2019s home is set to this place yet.</div>'}
+    </div>`;
+  document.getElementById('drawerBody').querySelectorAll('[data-goto]').forEach(b =>
+    b.onclick = () => openDrawer(b.dataset.goto));
+  document.getElementById('drawer').classList.add('open');
+  document.getElementById('scrim').classList.add('open');
+  document.getElementById('closeDrawer').focus();
+  highlightPin(id);
+}
+
+function highlightPin(id){
+  document.querySelectorAll('.pin').forEach(p =>
+    p.setAttribute('aria-current', p.dataset.loc === id));
+}
+
+/* Jump from a villager card to their home on the map */
+function gotoHome(locId){
+  const l = (DATA.locations||[]).find(x => x.id === locId);
+  closeDrawer();
+  if(l && typeof l.x === 'number'){
+    showTab('map');
+    setTimeout(() => { highlightPin(locId); openLocation(locId); }, 260);
+  }
 }
 
 /* ---------- graph ---------- */
@@ -471,9 +621,11 @@ function showTab(name){
   document.querySelectorAll('nav button').forEach(b =>
     b.setAttribute('aria-current', b.dataset.tab === name));
   document.getElementById('rosterPane').hidden   = name !== 'roster';
+  document.getElementById('mapPane').hidden      = name !== 'map';
   document.getElementById('graphPane').hidden    = name !== 'graph';
   document.getElementById('steadingPane').hidden = name !== 'steading';
   if(name === 'graph') renderGraph();
+  if(name === 'map') renderMap();
 }
 
 /* ---------- boot ---------- */
