@@ -75,9 +75,10 @@ Don't hand-type coordinates. Use the tool.
 2. Click a building on the map.
 3. Type a name and a note.
 4. Click **Add place**.
-5. Repeat for every building you want to mark.
-6. Click **Copy**, then paste it over the whole `"locations": [ ... ],` block in `stonetop.json`.
-7. Commit. Done.
+5. **Drag any existing marker** to nudge it into place.
+6. Repeat for every building you want to mark.
+7. Click **Copy**, then paste it over the whole `"locations": [ ... ],` block in `stonetop.json`.
+8. Commit. Done.
 
 The tool loads the places you've already got, so you're always adding to the list rather than starting fresh.
 

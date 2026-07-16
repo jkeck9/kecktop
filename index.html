@@ -422,6 +422,7 @@ function renderRoster(){
 function openDrawer(id){
   const p = BYID[id];
   if(!p) return;
+  highlightPin(null);   // showing a person now, not a place
   const ties = p._ties.slice().sort((a,b) => a.label.localeCompare(b.label));
   document.getElementById('drawerBody').innerHTML = `
     <div class="d-eyebrow ${p.pc?'':'npc'}">${p.pc ? 'Player character' : 'Villager'}</div>
@@ -454,6 +455,7 @@ function openDrawer(id){
 function closeDrawer(){
   document.getElementById('drawer').classList.remove('open');
   document.getElementById('scrim').classList.remove('open');
+  highlightPin(null);   // no marker should stay lit once the drawer is gone
 }
 function locName(id){
   const l = (DATA.locations||[]).find(x => x.id === id);
