@@ -289,27 +289,15 @@ nav button:focus-visible{outline:2px solid var(--ember);outline-offset:2px}
       <span class="tag">Who lives here</span>
     </div>
     <nav>
-      <button data-tab="roster" aria-current="true">Roster</button>
-      <button data-tab="map">Map</button>
+      <button data-tab="map" aria-current="true">Map</button>
+      <button data-tab="roster">Roster</button>
       <button data-tab="graph">Ties</button>
       <button data-tab="steading">Steading</button>
     </nav>
   </header>
 
-  <!-- ROSTER -->
-  <section id="rosterPane">
-    <div class="controls">
-      <input class="search" id="q" type="search" placeholder="Search names, roles, notes…" autocomplete="off">
-      <button class="chip" data-filter="all" aria-pressed="true">Everyone</button>
-      <button class="chip" data-filter="pc" aria-pressed="false">Player characters</button>
-      <button class="chip" data-filter="npc" aria-pressed="false">Villagers</button>
-    </div>
-    <div class="count" id="count"></div>
-    <div class="roster" id="roster"></div>
-  </section>
-
   <!-- MAP -->
-  <section id="mapPane" hidden>
+  <section id="mapPane">
     <div class="graph-hint" id="mapHint">Hover a marker to see the place · click to see who's there</div>
     <div class="map-box">
       <div class="map-inner" id="mapInner">
@@ -318,6 +306,18 @@ nav button:focus-visible{outline:2px solid var(--ember);outline-offset:2px}
       </div>
     </div>
     <div class="map-credit" id="mapCredit"></div>
+  </section>
+
+  <!-- ROSTER -->
+  <section id="rosterPane" hidden>
+    <div class="controls">
+      <input class="search" id="q" type="search" placeholder="Search names, roles, notes…" autocomplete="off">
+      <button class="chip" data-filter="all" aria-pressed="true">Everyone</button>
+      <button class="chip" data-filter="pc" aria-pressed="false">Player characters</button>
+      <button class="chip" data-filter="npc" aria-pressed="false">Villagers</button>
+    </div>
+    <div class="count" id="count"></div>
+    <div class="roster" id="roster"></div>
   </section>
 
   <!-- GRAPH -->
@@ -636,10 +636,13 @@ fetch('stonetop.json')
   .then(d => {
     ingest(d);
     renderRoster();
+    renderMap();      // map is the landing tab
   })
   .catch(e => {
     document.getElementById('roster').innerHTML =
       '<div class="empty">Could not load stonetop.json — check the file is beside index.html and that its syntax is valid.</div>';
+    document.querySelector('#mapPane .map-box').innerHTML =
+      '<div class="map-empty">Could not load stonetop.json — check the file is beside index.html and that its syntax is valid.</div>';
     console.error(e);
   });
 
