@@ -202,30 +202,92 @@
     "image": "map.jpg",
     "credit": "Map by Jeremy Strandberg, from the Stonetop corebook."
   },
-
-  "locations": [
-    {
-      "id": "standing-stone",
-      "name": "The Standing Stone",
-      "x": 34.0,
-      "y": 26.4,
-      "notes": "The old monolith at the heart of the village. Older than Stonetop, older than the Makers. Nobody raised it; it was simply here."
-    },
-    {
-      "id": "great-hall",
-      "name": "The Great Hall",
-      "x": 46.2,
-      "y": 28.0,
-      "notes": "Where the village gathers, argues, feasts, and decides."
-    },
-    {
-      "id": "smithy",
-      "name": "The Smithy",
-      "x": null,
-      "y": null,
-      "notes": "Pete's forge. Stevwin works the bellows."
-    }
-  ],
+"locations": [
+  {
+    "id": "the-stone",
+    "name": "The Stone",
+    "x": 41.4,
+    "y": 35.4,
+    "notes": "The Stone is well over 50 feet tall and etched in faded runes. It seems older than even the Maker-ruins (page 264 upon which the village was founded. When storms roll in, lightning strikes the Stone repeatedly. This phenomenon has made the locals somewhat impervious to sudden loud sound."
+  },
+  {
+    "id": "the-public-house",
+    "name": "The Public House",
+    "x": 50.8,
+    "y": 30.7,
+    "notes": "The public house is a large hall, where folks meet after sundown to drink and socialize. It offers floor space to travelers and a small stable under the same roof. The town’s horses are kept here."
+  },
+  {
+    "id": "the-cistern",
+    "name": "The Cistern",
+    "x": 38.7,
+    "y": 39.7,
+    "notes": "The Cistern is an underground vault, clearly an artifact of the Makers. Locals fill it with rain, snow, and water from the Stream (page 396)."
+  },
+  {
+    "id": "the-granary",
+    "name": "The Granary",
+    "x": 39.7,
+    "y": 27.9,
+    "notes": "The granary is a warehouse built on a Maker-ruin foundation. Foodstuffs are stored here. Everyone contributes, everyone shares."
+  },
+  {
+    "id": "the-pavilion-of-the-gods",
+    "name": "The Pavilion of the Gods",
+    "x": 51.1,
+    "y": 38.4,
+    "notes": "The pavilion of the gods is an open air structure with shrines to Aratis (page 22), Danu (page 64), Helior (page 224), Tor (page 452), and maybe others (page 178). As close as Stonetop gets to a temple."
+  },
+  {
+    "id": "stevwins-house",
+    "name": "Stevwin's House",
+    "x": 31.3,
+    "y": 33.9,
+    "notes": ""
+  },
+  {
+    "id": "the-smithy",
+    "name": "The Smithy",
+    "x": 30.3,
+    "y": 36.6,
+    "notes": ""
+  },
+  {
+    "id": "berkhards-house",
+    "name": "Berkhard's House",
+    "x": 56.5,
+    "y": 37.4,
+    "notes": "Where Berkhard dwells with his wife, Gerhild"
+  },
+  {
+    "id": "the-barracks",
+    "name": "The Barracks",
+    "x": 57.3,
+    "y": 34.8,
+    "notes": "Gathering place of the local guard. Weapons and armor are housed here."
+  },
+  {
+    "id": "snook-anook-library",
+    "name": "Snook Anook & Library",
+    "x": 55,
+    "y": 26.7,
+    "notes": "Where Snook Anook dwells with many a book and lost arcana."
+  },
+  {
+    "id": "fadrian-and-tallpup",
+    "name": "Fadrian and Tallpup",
+    "x": 56.5,
+    "y": 44.8,
+    "notes": "The shared abode of Fadrian and Tallpup."
+  },
+  {
+    "id": "healing-houses",
+    "name": "Healing Houses",
+    "x": 59,
+    "y": 49.1,
+    "notes": "Home to Sithé and her apprentices. The town's sick or wounded are housed here temporarily."
+  }
+],
 
   "steading": {},
 
