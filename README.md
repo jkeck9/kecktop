@@ -108,6 +108,30 @@ Set a villager's `home` to a location's `id`:
 
 That's the whole job. Their card gets a **Show on map** link, and they appear under **Who's here** when you click that marker. The map and the roster stay in sync because they read the same field.
 
+## Adding portraits
+
+Portraits show on each villager's roster card (below the name) and in their detail panel. They're optional — a villager with no portrait just shows text, no gap or broken image.
+
+**Make a `portraits` folder** in your repo, alongside `index.html`.
+
+**Crop each drawing with the tool:**
+
+1. Open `admin.html` on your local server (same as the map tool) and click **Crop portraits** at the top.
+2. Drop in your friend's drawing — any size, any shape.
+3. Drag it to reposition, use the **Zoom** slider to frame it. The square you see is exactly what gets saved.
+4. Type the villager's `id` (the same lowercase id from `stonetop.json` — e.g. `pete`).
+5. Click **Save square**. A web-ready `pete.jpg` downloads (800×800, optimized — small enough for phones).
+6. Move that file into your `portraits` folder and upload it to GitHub.
+7. Add the line the tool shows you to that villager in `stonetop.json`:
+
+```json
+"portrait": "portraits/pete.jpg",
+```
+
+That's it. The card and panel pick it up automatically.
+
+**Note:** the tool crops and shrinks for you, so it doesn't matter how big your friend's originals are. Keep the originals somewhere safe in case you want to re-crop later.
+
 ## Not built yet
 
 - **Steading** — tab exists, is a placeholder. Pop, surplus, defenses, upgrades.
