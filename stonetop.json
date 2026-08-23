@@ -36,7 +36,7 @@
       "name": "Stevwin",
       "pc": true,
       "role": "The Heavy",
-      "home": "smithy",
+      "home": "Stevwin's House",
       "notes": "Likes to hit things. Works the village smithy under Pete.",
       "ties": [
         { "to": "pete", "label": "works for" }
@@ -97,7 +97,7 @@
       "name": "Brogan",
       "pc": false,
       "role": "Laborer",
-      "home": null,
+      "home": "Healing Houses",
       "notes": "",
       "ties": [
         { "to": "egraine", "label": "married to" },
@@ -138,7 +138,7 @@
       "name": "Pete",
       "pc": false,
       "role": "Blacksmith",
-      "home": "smithy",
+      "home": "The Smithy",
       "notes": "A man of few words. The locals find his grunts and mumbles intelligible enough.",
       "ties": []
     },
