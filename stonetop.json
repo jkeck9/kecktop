@@ -63,10 +63,10 @@
       "pc": true,
       "role": "The Heavy",
       "home": "stevwins-house",
-      "notes": "Likes to hit things. Works the village smithy under Pete.",
+      "notes": "Likes to hit things. Works the village smithy under Erham.",
       "ties": [
         {
-          "to": "pete",
+          "to": "erham",
           "label": "works for"
         }
       ]
@@ -101,7 +101,7 @@
       "pc": false,
       "role": "Ranger's apprentice",
       "home": null,
-      "notes": "Self-named. Apprentice to Fadrian.",
+      "notes": "Self-named apprentice to Fadrian.",
       "ties": []
     },
     {
@@ -178,13 +178,18 @@
       "ties": []
     },
     {
-      "id": "pete",
-      "name": "Pete",
+      "id": "erham",
+      "name": "Erham",
       "pc": false,
       "role": "Blacksmith",
       "home": "the-smithy",
       "notes": "A man of few words. The locals find his grunts and mumbles intelligible enough.",
-      "ties": []
+      "ties": [
+        {
+          "to": "stevwin",
+          "label": "colleague"
+        }
+      ]
     },
     {
       "id": "aled",
