@@ -97,7 +97,7 @@
     {
       "id": "dolph",
       "name": "Dolph",
-      "portrait": "Portraits/dolph.jpg",
+      "portrait": "portraits/dolph.jpg",
       "pc": false,
       "role": "Ranger's apprentice",
       "home": null,
