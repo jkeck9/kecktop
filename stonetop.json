@@ -245,6 +245,15 @@
       "notes": "Honest. Recently married.",
       "ties": []
     }
+    {
+      "id": "pete",
+      "name": "Pete",
+      "pc": false,
+      "role": "Butcher",
+      "home": null,
+      "notes": "Jovial. Loves food and drink. An excellent cook.",
+      "ties": []
+    }
   ],
   "map": {
     "image": "map.jpg",
