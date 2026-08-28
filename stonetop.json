@@ -194,6 +194,7 @@
     {
       "id": "aled",
       "name": "Aled",
+      "portrait": "portraits/aled.jpg",
       "pc": false,
       "role": "Warrior",
       "home": null,
@@ -239,6 +240,7 @@
     {
       "id": "eira",
       "name": "Eira",
+      "portrait": "portraits/eira.jpg",
       "pc": false,
       "role": "Warrior",
       "home": null,
