@@ -250,6 +250,7 @@
     {
       "id": "pete",
       "name": "Pete",
+      "portrait": "portraits/pete.jpg",
       "pc": false,
       "role": "Butcher",
       "home": null,
