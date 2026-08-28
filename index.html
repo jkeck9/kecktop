@@ -216,6 +216,95 @@ nav button:focus-visible{outline:2px solid var(--ember);outline-offset:2px}
   border:1px solid var(--rule);background:var(--smoke);
 }
 
+/* ---------- dashboard ---------- */
+#dashboard{
+  display:grid;grid-template-columns:repeat(6,1fr);gap:1px;
+  background:var(--rule);border:1px solid var(--rule);margin-bottom:14px;
+}
+.stat{
+  background:var(--smoke);padding:14px 12px;text-align:center;
+  display:flex;flex-direction:column;gap:4px;
+}
+.stat .v{font-size:26px;font-weight:500;line-height:1;color:var(--bone)}
+.stat .k{
+  font-family:var(--util);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ash);
+}
+.stat.size .v{font-size:18px;text-transform:capitalize;padding-top:4px}
+.debilities-row{
+  display:flex;gap:10px;flex-wrap:wrap;align-items:center;
+  margin-bottom:18px;padding:0 2px;
+}
+.debilities-row .dlab{
+  font-family:var(--util);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ash);
+}
+.deb{
+  font-family:var(--util);font-size:12px;letter-spacing:.1em;text-transform:uppercase;
+  padding:4px 12px;border-radius:2px;border:1px solid var(--rule);
+}
+.deb.on{background:var(--ember);color:var(--ink);border-color:var(--ember);font-weight:600}
+.deb.off{color:var(--ash)}
+@media(max-width:640px){
+  #dashboard{grid-template-columns:repeat(3,1fr)}
+  .stat .v{font-size:22px}
+}
+
+/* ---------- steading lists ---------- */
+#steadingLists{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+  background:var(--rule);border:1px solid var(--rule);margin-bottom:28px;
+}
+.slist{background:var(--smoke);padding:18px 20px}
+.slist h3{
+  font-family:var(--util);font-size:13px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--bronze);margin-bottom:12px;font-weight:600;
+}
+.slist ul{list-style:none}
+.slist li{
+  font-size:15px;color:var(--wool);line-height:1.5;padding:4px 0;
+  border-bottom:1px solid var(--rule);
+}
+.slist li:last-child{border-bottom:none}
+@media(max-width:760px){#steadingLists{grid-template-columns:1fr}}
+
+/* ---------- improvements ---------- */
+.imp-controls{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  flex-wrap:wrap;padding-bottom:16px;border-bottom:1px solid var(--rule);margin-bottom:20px;
+}
+.imp-controls-lab{
+  font-family:var(--display);font-size:24px;font-weight:500;letter-spacing:.02em;
+}
+.imp-filters{display:flex;gap:6px}
+#improvements{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px;
+}
+.imp{
+  background:var(--smoke);border:1px solid var(--rule);border-radius:2px;
+  padding:18px;display:flex;flex-direction:column;gap:10px;position:relative;
+  border-left:3px solid var(--rule);
+}
+.imp.built{border-left-color:var(--moss)}
+.imp.in-progress{border-left-color:var(--bronze)}
+.imp.available{border-left-color:var(--rule)}
+.imp-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+.imp-name{font-size:20px;font-weight:500;line-height:1.15}
+.imp-status{
+  font-family:var(--util);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  padding:3px 9px;border-radius:2px;white-space:nowrap;flex-shrink:0;
+}
+.imp-status.built{background:var(--moss);color:var(--bone)}
+.imp-status.in-progress{background:var(--bronze);color:var(--ink)}
+.imp-status.available{background:none;color:var(--ash);border:1px solid var(--rule)}
+.imp-blurb{font-size:15px;color:var(--wool);font-style:italic;line-height:1.5}
+.imp-field{font-size:14px;line-height:1.55}
+.imp-field .fl{
+  font-family:var(--util);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ash);display:block;margin-bottom:2px;
+}
+.imp-field .ft{color:var(--bone)}
+.imp.built .imp-name{color:var(--wool)}
+
 /* ---------- drawer ---------- */
 .scrim{
   position:fixed;inset:0;background:rgba(8,6,5,.7);z-index:40;
@@ -315,6 +404,7 @@ nav button:focus-visible{outline:2px solid var(--ember);outline-offset:2px}
 
   <!-- MAP -->
   <section id="mapPane">
+    <div id="dashboard"></div>
     <div class="graph-hint" id="mapHint">Hover a marker to see the place · click to see who's there</div>
     <div class="map-box">
       <div class="map-inner" id="mapInner">
@@ -345,10 +435,17 @@ nav button:focus-visible{outline:2px solid var(--ember);outline-offset:2px}
 
   <!-- STEADING -->
   <section id="steadingPane" hidden>
-    <div class="stub">
-      <h2>Steading</h2>
-      <p>Population, surplus, defenses, and upgrades will live here.</p>
+    <div id="steadingLists"></div>
+    <div class="imp-controls">
+      <span class="imp-controls-lab">Improvements</span>
+      <div class="imp-filters" id="impFilters">
+        <button class="chip" data-impfilter="all" aria-pressed="true">All</button>
+        <button class="chip" data-impfilter="built" aria-pressed="false">Built</button>
+        <button class="chip" data-impfilter="in-progress" aria-pressed="false">In progress</button>
+        <button class="chip" data-impfilter="available" aria-pressed="false">Available</button>
+      </div>
     </div>
+    <div id="improvements"></div>
   </section>
 </div>
 
@@ -647,7 +744,91 @@ function showTab(name){
   document.getElementById('steadingPane').hidden = name !== 'steading';
   if(name === 'graph') renderGraph();
   if(name === 'map') renderMap();
+  if(name === 'steading') renderSteading();
 }
+
+/* ---------- dashboard + steading ---------- */
+let impFilter = 'all';
+
+function renderDashboard(){
+  const s = (DATA.steading && DATA.steading.state) || null;
+  const dash = document.getElementById('dashboard');
+  if(!s){ dash.innerHTML = ''; return; }
+  const fmt = n => (n > 0 ? '+' + n : '' + n);
+  const stats = [
+    { k: 'Size', v: s.size, cls: 'size' },
+    { k: 'Fortunes', v: fmt(s.fortunes) },
+    { k: 'Surplus', v: s.surplus },
+    { k: 'Population', v: fmt(s.population) },
+    { k: 'Prosperity', v: fmt(s.prosperity) },
+    { k: 'Defenses', v: fmt(s.defenses) }
+  ];
+  dash.innerHTML = stats.map(st => `
+    <div class="stat ${st.cls||''}">
+      <span class="v">${esc(String(st.v))}</span>
+      <span class="k">${esc(st.k)}</span>
+    </div>`).join('');
+}
+
+function renderSteading(){
+  const st = DATA.steading;
+  if(!st){ document.getElementById('steadingLists').innerHTML =
+    '<div class="slist"><p style="color:var(--ash)">No steading data yet.</p></div>'; return; }
+
+  // debilities row
+  const deb = (st.state && st.state.debilities) || {};
+  const debRow = `
+    <div class="debilities-row">
+      <span class="dlab">Debilities</span>
+      ${['diminished','lacking','malcontent'].map(d =>
+        `<span class="deb ${deb[d]?'on':'off'}">${d}</span>`).join('')}
+    </div>`;
+
+  // three lists
+  const list = (title, items) => `
+    <div class="slist">
+      <h3>${title}</h3>
+      ${items && items.length
+        ? '<ul>' + items.map(i => `<li>${esc(i)}</li>`).join('') + '</ul>'
+        : '<p style="color:var(--ash);font-style:italic">None yet.</p>'}
+    </div>`;
+
+  document.getElementById('steadingLists').innerHTML = debRow +
+    '<div id="listsGrid" style="display:contents">' +
+    list('Resources', st.resources) +
+    list('Fortifications', st.fortifications) +
+    list('Assets', st.assets) +
+    '</div>';
+
+  renderImprovements();
+}
+
+function renderImprovements(){
+  const imps = (DATA.steading && DATA.steading.improvements) || [];
+  const order = { 'built': 0, 'in-progress': 1, 'available': 2 };
+  const list = imps
+    .filter(i => impFilter === 'all' || i.status === impFilter)
+    .slice()
+    .sort((a,b) => (order[a.status]??9) - (order[b.status]??9) || a.name.localeCompare(b.name));
+
+  const wrap = document.getElementById('improvements');
+  if(!list.length){
+    wrap.innerHTML = '<div class="empty" style="grid-column:1/-1">Nothing here yet.</div>';
+    return;
+  }
+  const label = { 'built':'Built', 'in-progress':'In progress', 'available':'Available' };
+  wrap.innerHTML = list.map(i => `
+    <div class="imp ${i.status}">
+      <div class="imp-head">
+        <span class="imp-name">${esc(i.name)}</span>
+        <span class="imp-status ${i.status}">${label[i.status]||i.status}</span>
+      </div>
+      ${i.blurb ? `<div class="imp-blurb">${esc(i.blurb)}</div>` : ''}
+      ${i.requires ? `<div class="imp-field"><span class="fl">Requires</span><span class="ft">${esc(i.requires)}</span></div>` : ''}
+      ${i.effect ? `<div class="imp-field"><span class="fl">Effect</span><span class="ft">${esc(i.effect)}</span></div>` : ''}
+    </div>`).join('');
+}
+
 
 /* ---------- boot ---------- */
 fetch('stonetop.json')
@@ -656,6 +837,7 @@ fetch('stonetop.json')
     ingest(d);
     renderRoster();
     renderMap();      // map is the landing tab
+    renderDashboard();
   })
   .catch(e => {
     document.getElementById('roster').innerHTML =
@@ -667,11 +849,17 @@ fetch('stonetop.json')
 
 document.querySelectorAll('nav button').forEach(b =>
   b.onclick = () => showTab(b.dataset.tab));
-document.querySelectorAll('.chip').forEach(c => c.onclick = () => {
+document.querySelectorAll('.chip[data-filter]').forEach(c => c.onclick = () => {
   filter = c.dataset.filter;
-  document.querySelectorAll('.chip').forEach(x =>
+  document.querySelectorAll('.chip[data-filter]').forEach(x =>
     x.setAttribute('aria-pressed', x === c));
   renderRoster();
+});
+document.querySelectorAll('.chip[data-impfilter]').forEach(c => c.onclick = () => {
+  impFilter = c.dataset.impfilter;
+  document.querySelectorAll('.chip[data-impfilter]').forEach(x =>
+    x.setAttribute('aria-pressed', x === c));
+  renderImprovements();
 });
 document.getElementById('q').oninput = e => { query = e.target.value; renderRoster(); };
 document.getElementById('closeDrawer').onclick = closeDrawer;

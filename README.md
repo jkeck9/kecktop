@@ -132,7 +132,80 @@ That's it. The card and panel pick it up automatically.
 
 **Note:** the tool crops and shrinks for you, so it doesn't matter how big your friend's originals are. Keep the originals somewhere safe in case you want to re-crop later.
 
+## The Steading
+
+The village's live numbers show on the **map homepage** (the strip of six dials) and the full detail lives on the **Steading tab**. Everything is edited in `stonetop.json` under the `"steading"` key.
+
+### Changing the dials
+
+Under `"steading" → "state"`, edit the numbers directly:
+
+```json
+"state": {
+  "size": "village",
+  "fortunes": 1,
+  "surplus": 2,
+  "population": 0,
+  "prosperity": 0,
+  "defenses": 0,
+  "debilities": { "diminished": false, "lacking": true, "malcontent": false }
+}
+```
+
+- `size` is one of: `hamlet`, `village`, `town`, `city` (lowercase).
+- The five numbers can be negative (e.g. `-1`); the app shows the `+`/`-` sign for you.
+- Each debility is `true` or `false` — flip to `true` to light it up in ember on the map and tab.
+
+### The lists
+
+`resources`, `fortifications`, and `assets` are simple lists of lines. Add or remove a line:
+
+```json
+"fortifications": [
+  "Village militia",
+  "The Ringwall (low, stone)",
+  "Palisade"
+]
+```
+
+### Marking improvements
+
+Each improvement has a `"status"` — change that one word:
+
+- `"available"` — not started (grey)
+- `"in-progress"` — you're working toward it (bronze)
+- `"built"` — done (green)
+
+```json
+{
+  "id": "palisade",
+  "name": "Palisade",
+  "status": "in-progress",
+  ...
+}
+```
+
+The tab groups cards by status automatically (built first, then in-progress, then available) and the filter buttons let players view one group at a time.
+
+**The app never enforces the rules.** It shows each improvement's requirements and effects as a reference, but you decide when something is built and flip the status yourself. When you build something, remember to also do the fiction bits by hand — bump the relevant dial, add the line to Fortifications/Resources, place any new building on the map. The app tracks; you adjudicate.
+
+### Adding a new improvement
+
+The GM playbook and expansions have improvements beyond the base list. Add one by copying an existing block and changing the fields:
+
+```json
+{
+  "id": "watchtower-signal",
+  "name": "Signal Towers",
+  "status": "available",
+  "blurb": "A short description in the village's voice.",
+  "requires": "What it takes, compressed to a sentence.",
+  "effect": "What happens when you build it."
+}
+```
+
+`id` is lowercase-with-hyphens and just needs to be unique.
+
 ## Not built yet
 
-- **Steading** — tab exists, is a placeholder. Pop, surplus, defenses, upgrades.
 - **World map** — the `world` key is sitting empty for whenever you want it.
