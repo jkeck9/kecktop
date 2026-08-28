@@ -120,7 +120,7 @@
     },
     {
       "id": "sithe",
-      "name": "Sith\u0113",
+      "name": "Sithē",
       "pc": false,
       "role": "Village elder & healer",
       "home": "healing-houses",
@@ -275,7 +275,7 @@
       "name": "The Public House",
       "x": 50.8,
       "y": 30.7,
-      "notes": "The public house is a large hall, where folks meet after sundown to drink and socialize. It offers floor space to travelers and a small stable under the same roof. The town\u2019s horses are kept here."
+      "notes": "The public house is a large hall, where folks meet after sundown to drink and socialize. It offers floor space to travelers and a small stable under the same roof. The town’s horses are kept here."
     },
     {
       "id": "the-cistern",
@@ -345,10 +345,9 @@
       "name": "Healing Houses",
       "x": 59,
       "y": 49.1,
-      "notes": "Home to Sith\u00e9 and her apprentices. The town's sick or wounded are housed here temporarily."
+      "notes": "Home to Sithé and her apprentices. The town's sick or wounded are housed here temporarily."
     }
   ],
-{
   "steading": {
     "state": {
       "size": "village",
@@ -524,6 +523,6 @@
         "effect": "Deploy with a trained tactic from a position of strength (you pick the 7-9 cost). 2+ tactics increases Defenses by 1. Each summer, spend 1 Surplus to keep training."
       }
     ]
-  }
-}  "world": {}
+  },
+  "world": {}
 }
