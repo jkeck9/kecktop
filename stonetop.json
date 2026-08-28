@@ -348,6 +348,182 @@
       "notes": "Home to Sith\u00e9 and her apprentices. The town's sick or wounded are housed here temporarily."
     }
   ],
-  "steading": {},
-  "world": {}
+{
+  "steading": {
+    "state": {
+      "size": "village",
+      "fortunes": 1,
+      "surplus": 1,
+      "population": 0,
+      "prosperity": 0,
+      "defenses": 0,
+      "debilities": {
+        "diminished": false,
+        "lacking": false,
+        "malcontent": false
+      }
+    },
+    "resources": [
+      "Farming (beans, potatoes, oats, barley)",
+      "Hunting/trapping (fur, meat, hides)",
+      "Distilling (whisky)",
+      "Stone (collected from the Old Wall)",
+      "Cistern (filled with rain, snow)",
+      "Tradesfolk (midwife, potter, publican, smith, tanner)",
+      "Trade: Gordin's Delve (metal, tools)",
+      "Trade: Marshedge (textiles, herbs, glass)"
+    ],
+    "fortifications": [
+      "Village militia",
+      "The Ringwall (low, stone)",
+      "3 watchtowers",
+      "Spears & shields in every home",
+      "Some bows"
+    ],
+    "assets": [
+      "A pair of hardy draft horses",
+      "A pair of horse-drawn plows, iron",
+      "A pair of carts (plus horse harness)",
+      "A wagon (plus horse harness)"
+    ],
+    "improvements": [
+      {
+        "id": "additional-housing",
+        "name": "Additional Housing",
+        "status": "available",
+        "blurb": "It's getting crowded! We need more room to live.",
+        "requires": "Either an exceptional engineer/foreman OR building on the fields (-1 Surplus each autumn); then Pull Together 5 times, each 1 season, 1 Surplus, and a wagonload of timber (Value 2).",
+        "effect": "Increase Fortunes by 1 and add new homes to the map. Henceforth, when you consume Surplus in winter, treat Population as 1 lower."
+      },
+      {
+        "id": "aurochs-hunting",
+        "name": "Aurochs Hunting",
+        "status": "available",
+        "blurb": "Large herds form on the Flats in spring. Stonetop has never learned to hunt them.",
+        "requires": "2 of: a Herd of Horses (and riders); cooperating with the Hillfolk; a cunning plan. Then a successful first hunt, played out in detail.",
+        "effect": "Add “Aurochs hunting (meat, hide, horn)” to Resources. Henceforth, lead the spring hunt: roll +Defenses for 1d4 Surplus (with complications on 7-9 or 6-)."
+      },
+      {
+        "id": "expanded-trades",
+        "name": "Expanded Trades",
+        "status": "available",
+        "blurb": "Specialization is the key to prosperity!",
+        "requires": "One of: Harnessing the Stream, Raincatching, or Mill — plus at least 3 exceptional tradesfolk (chandler, glassblower, weaver, potter, smith, etc.) with good tools and supplies.",
+        "effect": "Increase Prosperity by 1. If you cease to meet the requirements, decrease Prosperity by 1."
+      },
+      {
+        "id": "greater-harvest",
+        "name": "Greater Harvest",
+        "status": "available",
+        "blurb": "Beyond the Old Wall, the prairie grass chokes out any crops we try to grow.",
+        "requires": "1 of: doubling the yield of crops inside the Old Wall; or clearing/taming new fields beyond it.",
+        "effect": "Increase Fortunes by 1. Henceforth, when the autumn harvest is complete, gain +1d4 Surplus."
+      },
+      {
+        "id": "harnessing-the-stream",
+        "name": "Harnessing the Stream",
+        "status": "available",
+        "blurb": "A shallow creek flows just below the town. If only it could be harnessed!",
+        "requires": "1 of: a reservoir with a way for water to flow uphill; or a series of aqueducts from the Stream's source back to Stonetop.",
+        "effect": "Add it to Resources and increase Fortunes by 1. Henceforth, when spring breaks forth and you roll 7+ with Fortunes, the steading generates 1 Surplus."
+      },
+      {
+        "id": "herd-of-horses",
+        "name": "Herd of Horses",
+        "status": "available",
+        "blurb": "Imagine what we could do with a dozen fine steeds.",
+        "requires": "A stable & corral site; Pull Together to build it (a month, timber); a trainer; a dozen horses; breaking them; tack (Value 2); Pull Together so villagers learn to ride (a season, 1 Surplus); a full-time handler.",
+        "effect": "Increase Fortunes by 1; replace draft horses with “a herd of horses” on Assets. Herds speed Pull Together, ease Requisition, and breed/consume Surplus seasonally."
+      },
+      {
+        "id": "heroic-reputation",
+        "name": "Heroic Reputation",
+        "status": "available",
+        "blurb": "Few have heard of Stonetop's heroes. Yet.",
+        "requires": "Any 3 of: impressing the Hillfolk; braving a lake with proof; saving many Marshedge lives; saving many Gordin's Delve lives; saving someone from beyond Marshedge; hiring a minstrel (Value 2).",
+        "effect": "Gain a move: when you first meet someone from beyond Stonetop, roll +Fortunes to know what they've heard of you (and gain advantage on 10+)."
+      },
+      {
+        "id": "inn",
+        "name": "Inn",
+        "status": "available",
+        "blurb": "The public house shelters a few, but it's hardly a proper inn.",
+        "requires": "In order: a building site; a competent engineer/foreman; furnishings (Value 3); Pull Together 2 times (1 season, 1 Surplus, timber each); a devoted staff.",
+        "effect": "Increase Fortunes by 1; name the inn, add to Resources and map. Seasonal news via Fortunes; once per season, spend 1 Surplus at the inn to clear a debility."
+      },
+      {
+        "id": "market",
+        "name": "Market",
+        "status": "available",
+        "blurb": "Stonetop is an afterthought for traders. We need to change that.",
+        "requires": "1 of: a good/service exclusive to Stonetop, or another reason to visit; plus a market site, a trusted arbiter, and 4 seasons without notable violence or theft.",
+        "effect": "Increase Prosperity by 1 (or lose it if requirements lapse). When seasons change and Population is +1 or better, the active market generates 1 Surplus."
+      },
+      {
+        "id": "mill",
+        "name": "Mill",
+        "status": "available",
+        "blurb": "With a mill, we'd have better bread and more time for other crafts.",
+        "requires": "An exceptional engineer/foreman; a consistent power source; a site to harness it; Pull Together 2 times (a season, 1 Surplus, timber & supplies each); a full-time miller.",
+        "effect": "Increase Fortunes by 1; add “Mill” to Resources and the map. Autumn harvests generate +1 Surplus, and supplies stretch further when you Outfit."
+      },
+      {
+        "id": "palisade",
+        "name": "Palisade",
+        "status": "available",
+        "blurb": "A wall of sharpened logs, 10' tall, to keep evil at bay.",
+        "requires": "In order: ~20-25 wagonloads of timber (Value 3); a competent engineer/foreman; rope, nails, pitch (Value 2); Pull Together (a month, 1 Surplus).",
+        "effect": "Increase Fortunes by 1; add “Palisade” to Fortifications and the map. Henceforth, take advantage to Deploy when you use it."
+      },
+      {
+        "id": "raincatching",
+        "name": "Raincatching",
+        "status": "available",
+        "blurb": "Filling the cistern takes so much work. Surely we can do better!",
+        "requires": "In order: an exceptional engineer/foreman; enough slate/terracotta to roof the buildings (Value 3); Pull Together 3 times (1 season, 1 Surplus each).",
+        "effect": "Increase Fortunes by 1; add “Raincatching” to Resources. Henceforth, when summer comes and you roll 7+ with Fortunes, generate 1 Surplus."
+      },
+      {
+        "id": "standing-watch",
+        "name": "Standing Watch",
+        "status": "available",
+        "blurb": "Some full-time warriors would make us all safer, no?",
+        "requires": "A veteran warrior able to command a crowd; at least 6 well-equipped, willing warriors; the village leaders agreeing to support a full-time watch.",
+        "effect": "Add “standing watch” to Fortifications. Each season it consumes 1 Surplus or disbands. When you involve the watch in a move, treat Defenses as 1 higher."
+      },
+      {
+        "id": "stone-wall",
+        "name": "Stone Wall",
+        "status": "available",
+        "blurb": "No mere palisade of wood, but a mighty rampart. We have the stone, after all.",
+        "requires": "In order: an exceptional engineer/foreman; a stonecutter with an able crew; equipment & material (Value 3); Pull Together 4 times (1 season, 1 Surplus, supplies each).",
+        "effect": "Add “Stone Wall” to Fortifications (erase Palisade) and the map. Advantage to Deploy when used; consumes 1 less Surplus in winter."
+      },
+      {
+        "id": "township",
+        "name": "Township",
+        "status": "available",
+        "blurb": "Will this ever be more than a backwater village?",
+        "requires": "Population +3 for 4 consecutive seasons; Additional Housing; Raincatching OR Diverting the Stream; at least 4 other improvements; a formal government.",
+        "effect": "Change Size to town and Population to +0. Advantage on Muster, Pull Together, and Trade & Barter; towns generate and consume Surplus differently."
+      },
+      {
+        "id": "weapons-of-war",
+        "name": "Weapons of War",
+        "status": "available",
+        "blurb": "Spears are great, but how about axes, picks, swords?",
+        "requires": "Either a few dozen good weapons (Value 3); OR a smith with upgraded tools (Value 2), good iron ore (Value 2), and 4 seasons of work. Then a veteran warrior and Pull Together to train (a season, 1 Surplus).",
+        "effect": "Increase Defenses by 1; add “Weapons of War” to Fortifications. Each spring spend 1 Surplus to maintain. Advanced weapons become common; swords/axes gain piercing equal to Prosperity."
+      },
+      {
+        "id": "well-trained-militia",
+        "name": "Well-Trained Militia",
+        "status": "available",
+        "blurb": "Some hard drilling could make us a force to be reckoned with.",
+        "requires": "A veteran warrior able to command a crowd. Then, per tactic (archery, cavalry, formations, readiness, skirmishing), Pull Together for a season of drills and 1 Surplus.",
+        "effect": "Deploy with a trained tactic from a position of strength (you pick the 7-9 cost). 2+ tactics increases Defenses by 1. Each summer, spend 1 Surplus to keep training."
+      }
+    ]
+  }
+}  "world": {}
 }
